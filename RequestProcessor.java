@@ -17,7 +17,10 @@ class RequestProcessor implements Runnable {
                             elevator.setCurrentFloor(++currentFloor); 
                         } 
                     } 
-                    System.out.println("Welcome to Floor : " + elevator.getCurrentFloor()); 
+                    System.out.println("\tDoors Opening");
+                    System.out.println("\t\tWelcome to Floor : " + elevator.getCurrentFloor());
+                    Thread.sleep(3000);
+                    System.out.println("\tDoors Closing");
                 } 
                  
             }catch(InterruptedException e){ 
@@ -26,5 +29,7 @@ class RequestProcessor implements Runnable {
                 } 
             } 
         } 
-    } 
+    }
+
+
 } 

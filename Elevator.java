@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
  
@@ -10,12 +12,16 @@ class Elevator {
     private TreeSet<Integer> requestSet = new TreeSet<Integer>(); 
      
     private int currentFloor = 0; 
+    
+    public int totalWt = 0; 
+    
+    private Map<Integer,Integer> pplWt = new HashMap<Integer,Integer>();
 
     private Direction direction = Direction.UP; 
 
     private Elevator() {}; 
      
-    public Thread requestProcessorThread; 
+    private Thread requestProcessorThread; 
 
     /** 
      * @return singleton instance 
@@ -58,7 +64,7 @@ class Elevator {
         } 
         if (floor == null) { 
             try { 
-                System.out.println("Press Any Floor Number : "); 
+                System.out.println("Press Any Floor Number , Entering People Weight : "); 
                 wait(); 
             } catch (InterruptedException e) { 
                 e.printStackTrace(); 
@@ -66,6 +72,9 @@ class Elevator {
         } else { 
             // Remove the request from Set as it is the request in Progress. 
             requestSet.remove(floor); 
+            int removeWt = this.pplWt.get(floor);
+            this.totalWt = this.totalWt - removeWt;
+            //pplWt.remove(floor);
         } 
         
         return (floor == null) ? -1 : floor; 
@@ -93,7 +102,7 @@ class Elevator {
          
         System.out.println("Floor : " + currentFloor); 
          
-        Thread.sleep(3000); 
+        Thread.sleep(1000); 
     } 
 
     public Direction getDirection() { 
@@ -122,6 +131,29 @@ class Elevator {
     
     enum Direction { 
         UP, DOWN 
+    }
+
+    public int getTotalWt() { 
+        return totalWt; 
+    } 
+
+    public void setTotalWt(int totalWt) { 
+        this.totalWt = totalWt; 
+    }
+	public void addWeight(int weight) {
+		this.totalWt = this.totalWt + weight; 
+		
+	}
+	public void removeWeight(int weight) {
+		this.totalWt = this.totalWt - weight; 
+		
+	}
+	public Map<Integer,Integer> getPplWt() { 
+        return pplWt; 
+    } 
+
+    public void setPplWt(Integer flr,Integer wt) { 
+        this.pplWt.put(flr, wt); 
     }
      
 } 
